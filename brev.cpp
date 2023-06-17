@@ -23,10 +23,14 @@ int main()
 {
   initscr();
 
-  char ch;
+  int ch;
   TextBuffer tb;
-  while ((ch = getch()) != '\n') {
-    tb.append_char(ch);
+  while ((ch = getch()) != '\n' && ch != KEY_F(1)) {
+    if (ch == KEY_BACKSPACE || ch == 127) {
+      tb.pop_char();
+    } else {
+      tb.append_char(ch);
+    }
   }
 
   std::string buffer_contents = tb.get_contents();
