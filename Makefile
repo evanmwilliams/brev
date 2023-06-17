@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS=-Wall -Wextra -Werror -pedantic -std=c++17 -g
+CFLAGS=-Wall -Wextra -Werror -pedantic -std=c++17 -g -lncurses
 TARGET = brev
 
 $(TARGET): $(TARGET).cpp

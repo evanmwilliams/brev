@@ -1,12 +1,14 @@
 #include <iostream>
-#include <termios.h>
-#include <unistd.h>
-#include <errno.h>
+#include <ncurses.h>
+#include <vector>
+#include <string>
 
-struct termios orig_termios;
-
-void enableRawMode();
-
-void disableRawMode();
-
-void die(const char *s);
+class TextBuffer {
+  private:
+    std::vector<char> buffer;
+  public:
+    std::string get_contents();
+    void append_char(char c);
+    bool pop_char();
+    bool undo_last_action();
+};

@@ -1,63 +1,36 @@
 #include "brev.hpp"
 
-void enableRawMode()
+void TextBuffer::append_char(char c)
 {
-  if (tcgetattr(STDIN_FILENO, &orig_termios) == -1)
-  {
-    die("tcgetattr");
-  }
-  atexit(disableRawMode);
-
-  struct termios raw = orig_termios;
-  raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-  raw.c_oflag &= ~(OPOST);
-  raw.c_cflag |= (CS8);
-  raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-  raw.c_cc[VMIN] = 0;
-  raw.c_cc[VTIME] = 1;
-
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1)
-  {
-    die("tcsetattr");
-  }
+  buffer.push_back(c);
 }
 
-void die(const char *s)
+bool TextBuffer::pop_char()
 {
-  perror(s);
-  exit(1);
+  if (buffer.size() > 0) {
+    buffer.pop_back();
+    return true;
+  }
+  return false;
 }
 
-void disableRawMode()
+std::string TextBuffer::get_contents()
 {
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1)
-  {
-    die("tcsetattr");
-  }
+  return std::string(buffer.begin(), buffer.end());
 }
 
 int main()
 {
-  enableRawMode();
+  initscr();
 
-  while (1)
-  {
-    char c = '\0';
-    if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
-    {
-      die("read");
-    }
-
-    if (iscntrl(c))
-    {
-      printf("%d\r\n", c);
-    }
-    else
-    {
-      printf("%d ('%c')\r\n", c, c);
-    }
-    if (c == 'q')
-      break;
+  char ch;
+  TextBuffer tb;
+  while ((ch = getch()) != '\n') {
+    tb.append_char(ch);
   }
+
+  std::string buffer_contents = tb.get_contents();
+  endwin();
+  std::cout << buffer_contents << std::endl;
   return EXIT_SUCCESS;
 }
