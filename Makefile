@@ -3,12 +3,12 @@ CFLAGS=-Wall -Wextra -Werror -pedantic -std=c++17 -g
 TARGET = brev
 
 $(TARGET): $(TARGET).cpp
-	$(CC) -o $(TARGET) $(TARGET).cpp $(CFLAGS)
+	mkdir -p build && $(CC) -o build/$(TARGET) $(TARGET).cpp $(CFLAGS)
 
 run: $(TARGET).cpp
-	make && ./$(TARGET)
+	make && ./build/$(TARGET)
 
 clean:  
-	rm -rf $(TARGET) $(TARGET).dSYM
+	rm -rf build/*
 
 .PHONY: clean
