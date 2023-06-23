@@ -1,28 +1,13 @@
 #include "TextBuffer.hpp"
 #include "PieceTable.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
   initscr();
   raw();
   noecho();
 
   int ch;
-  // TextBuffer tb;
-  // while ((ch = getch()) != '\n' && ch != KEY_F(1))
-  // {
-  //   if (ch == KEY_BACKSPACE || ch == 127)
-  //   {
-  //     tb.pop_char();
-  //   }
-  //   else
-  //   {
-  //     tb.append_char(ch);
-  //   }
-  // }
-
-  // std::string buffer_contents = tb.get_contents();
-
   PieceTable pt;
   while ((ch = getch()) != '\n' && ch != KEY_F(1))
   {
