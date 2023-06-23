@@ -1,23 +1,4 @@
-#include "brev.hpp"
-
-void TextBuffer::append_char(char c)
-{
-  buffer.push_back(c);
-}
-
-bool TextBuffer::pop_char()
-{
-  if (buffer.size() > 0) {
-    buffer.pop_back();
-    return true;
-  }
-  return false;
-}
-
-std::string TextBuffer::get_contents()
-{
-  return std::string(buffer.begin(), buffer.end());
-}
+#include "TextBuffer.hpp"
 
 int main()
 {
@@ -25,10 +6,14 @@ int main()
 
   int ch;
   TextBuffer tb;
-  while ((ch = getch()) != '\n' && ch != KEY_F(1)) {
-    if (ch == KEY_BACKSPACE || ch == 127) {
+  while ((ch = getch()) != '\n' && ch != KEY_F(1))
+  {
+    if (ch == KEY_BACKSPACE || ch == 127)
+    {
       tb.pop_char();
-    } else {
+    }
+    else
+    {
       tb.append_char(ch);
     }
   }
